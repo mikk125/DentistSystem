@@ -70,15 +70,8 @@ public class DentistAppController extends WebMvcConfigurerAdapter {
     }
 
     @GetMapping("/delete/{id}")
-    public String deleteRegistrationById(@PathVariable("id") Long id, BindingResult bindingResult, Model model) {
-        try {
-            dentistVisitService.deleteRegistrationById(id);
-        } catch (Exception ex) {
-            bindingResult.addError(new FieldError("dentistVisitDTO", "somethingWentWrong", "Kustutamine ebaõnnestus!"));
-            model.addAttribute("registrations", dentistVisitService.findAllRegistrations());
-            model.addAttribute("isSearch", false);
-            return "allRegistrations";
-        }
+    public String deleteRegistrationById(@PathVariable("id") Long id) {
+        dentistVisitService.deleteRegistrationById(id);
         return "redirect:/deleteResults";
     }
 
@@ -142,11 +135,11 @@ public class DentistAppController extends WebMvcConfigurerAdapter {
     }
 
     private String modifyVisit(DentistVisitDTO dentistVisitDTO, BindingResult bindingResult, Model model, boolean isNew) {
-        if (bindingResult.hasErrors() || !dentistVisitDTO.getPatientName().contains(" ") || dentistVisitService.isDateIsAlreadyRegistered(dentistVisitDTO.getVisitDate(), dentistVisitDTO.getVisitTime())) {
+        if (bindingResult.hasErrors() || !dentistVisitDTO.getPatientName().matches("^[a-zA-Z]+ [a-zA-Z]+$") || (dentistVisitService.isDateIsAlreadyRegistered(dentistVisitDTO.getVisitDate(), dentistVisitDTO.getVisitTime()) && isNew)) {
             if (!dentistVisitDTO.getPatientName().matches("^[a-zA-Z]+ [a-zA-Z]+$")) {
                 bindingResult.addError(new FieldError("dentistVisitDTO", "missingSpace", "Patsiendi nimi peab olema eesnimi ja perenimi!"));
             }
-            if (dentistVisitService.isDateIsAlreadyRegistered(dentistVisitDTO.getVisitDate(), dentistVisitDTO.getVisitTime())) {
+            if (dentistVisitService.isDateIsAlreadyRegistered(dentistVisitDTO.getVisitDate(), dentistVisitDTO.getVisitTime()) && isNew) {
                 bindingResult.addError(new FieldError("dentistVisitDTO", "timeTaken", "See aeg on juba broneeritud!"));
             }
             getPossibleDentistVisitData(model);
