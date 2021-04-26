@@ -1,0 +1,84 @@
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<header>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <style>
+        table {
+            width: 80%;
+        }
+
+        table th, table td {
+            padding: 10px; /* Apply cell padding */
+        }
+    </style>
+</header>
+<body>
+<form action="#" th:action="@{/search}" th:object="${dentistVisitSearchDTO}" method="post">
+    <table>
+        <tr>
+            <td>
+                <a th:href="@{http://localhost:8080/}" th:text="#{add.new.registration}">add.new.registration</a>
+            </td>
+            <td>
+                <a th:href="@{http://localhost:8080/newData}" th:text="#{add.new.data}">add.new.data</a>
+            </td>
+        </tr>
+        <tr>
+            <td>&nbsp;</td>
+        </tr>
+        <tr>
+            <td>
+                <input type="text" th:field="*{keyword}" th:placeholder="#{otsing.placeholder}"/>
+            </td>
+            <td>
+                <input type="submit" value="Otsi"/>
+            </td>
+        </tr>
+        <tr>
+            <td>&nbsp;</td>
+        </tr>
+        <tr th:if="${isSearch == false and (registrations == null or registrations.empty)}">
+            <td th:text="#{no.registrations}">no.registrations</td>
+        </tr>
+        <tr th:if="${isSearch == true and (registrations == null or registrations.empty)}">
+            <td th:text="#{search.no.registrations}">search.no.registrations</td>
+        </tr>
+        <tr th:if="${registrations!=null and !registrations.empty}">
+            <th th:text="#{patient.name}">patient.name</th>
+            <th th:text="#{dentist.name}">dentist.name</th>
+            <th th:text="#{visit.date}">visit.date</th>
+            <th th:text="#{visit.time}">visit.time</th>
+            <th></th>
+            <th></th>
+        </tr>
+        <tr th:if="${registrations!=null and !registrations.empty}" th:each="registration : ${registrations}">
+            <td th:text="${registration.patientName}"></td>
+            <td th:text="${registration.dentistName}"></td>
+            <td th:text="${registration.visitDate}"></td>
+            <td th:text="${registration.visitTime}"></td>
+            <td>
+                <a th:href="@{http://localhost:8080/modify/{id}(id=${registration.id})}">
+                <span class="glyphicon glyphicon-edit">
+                </span>
+                </a>
+            </td>
+            <td>
+                <a th:href="@{http://localhost:8080/delete/{id}(id=${registration.id})}">
+                    <span class="glyphicon glyphicon-trash"></span>
+                </a>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div th:each="err : ${#fields.errors('*')}">
+                    <span th:text="${err}" class="fieldError"></span>
+                </div>
+            </td>
+        </tr>
+    </table>
+
+</form>
+</body>
+</html>
