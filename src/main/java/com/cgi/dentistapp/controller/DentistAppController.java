@@ -103,7 +103,7 @@ public class DentistAppController extends WebMvcConfigurerAdapter {
     public String postNewDataRegisterForm(@Valid PossibleDentistVisitDTO possibleDentistVisitDTO, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
             if (!possibleDentistVisitDTO.getDentistName().contains(" ")) {
-                bindingResult.addError(new FieldError("possibleDentistVisitDTO", "missingSpace", "Arsti nimi peab olema eesnimi ja perenimi!"));
+                bindingResult.addError(new FieldError("possibleDentistVisitDTO", "dentistName", "Arsti nimi peab olema eesnimi ja perenimi!"));
             }
             model.addAttribute("baseUrl", String.format("%s:%d", BASE_URL, serverPort));
             return "dataForm";
@@ -112,7 +112,7 @@ public class DentistAppController extends WebMvcConfigurerAdapter {
         try {
             possibleDentistVisitService.addData(possibleDentistVisitDTO);
         } catch (Exception ex) {
-            bindingResult.addError(new FieldError("possibleDentistVisitDTO", "somethingWentWrong", "Salvestamine ebaõnnestus!"));
+            bindingResult.addError(new FieldError("possibleDentistVisitDTO", "error", "Salvestamine ebaõnnestus!"));
             model.addAttribute("baseUrl", String.format("%s:%d", BASE_URL, serverPort));
             return "dataForm";
         }
@@ -175,10 +175,10 @@ public class DentistAppController extends WebMvcConfigurerAdapter {
             }
         } catch (Exception ex) {
             if (isNew) {
-                bindingResult.addError(new FieldError("dentistVisitDTO", "somethingWentWrong", "Salvestamine ebaõnnestus!"));
+                bindingResult.addError(new FieldError("dentistVisitDTO", "error", "Salvestamine ebaõnnestus!"));
                 model.addAttribute("buttonName", "register.visit");
             } else {
-                bindingResult.addError(new FieldError("dentistVisitDTO", "somethingWentWrong", "Muutmine ebaõnnestus!"));
+                bindingResult.addError(new FieldError("dentistVisitDTO", "error", "Muutmine ebaõnnestus!"));
                 model.addAttribute("buttonName", "modify.visit");
             }
             model.addAttribute("isNew", isNew);

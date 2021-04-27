@@ -32,6 +32,8 @@ public class DentistVisitDTO {
     @DateTimeFormat(pattern = "HH:mm:ss")
     private Date visitTime;
 
+    private String error;
+
     public DentistVisitDTO() {
     }
 
@@ -83,4 +85,11 @@ public class DentistVisitDTO {
         this.visitTime = visitTime;
     }
 
+    public String getError() {
+        return error;
+    }
+
+    public void setError(String error) {
+        this.error = error;
+    }
 }

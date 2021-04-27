@@ -78,6 +78,10 @@
             </div>
         </div>
         <button class="btn btn-primary" type="submit" th:text="#{__${buttonName}__}"></button>
+        <div th:each="err : ${#fields.errors('error')}">
+            <small class="form-text text-muted" th:if="${#fields.hasErrors('error')}"
+                   th:errors="*{error}"></small>
+        </div>
     </div>
 </form>
 </body>
