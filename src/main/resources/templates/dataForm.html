@@ -1,39 +1,47 @@
 <html>
+<header>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+</header>
 <body>
-<form action="#" th:action="@{/newData}" th:object="${possibleDentistVisitDTO}" method="post">
-    <table>
-        <tr>
-            <td>
-                <a th:href="@{http://localhost:8080/}" th:text="#{add.new.registration}">add.new.registration</a>
-            </td>
-            <td>
-                <a href="" th:href="@{http://localhost:8080/registrations}" th:text="#{look.all.registrations}">look.all.registrations</a>
-            </td>
-        </tr>
-        <tr>
-            <td>&nbsp;</td>
-        </tr>
-        <tr>
-            <td><p th:text="#{dentist.name}">dentist.name</p></td>
-            <td><input type="text" th:field="*{dentistName}"/></td>
-            <td th:if="${#fields.hasErrors('dentistName')}" th:errors="*{dentistName}"></td>
-        </tr>
-        <tr>
-            <td><p th:text="#{visit.date}">visit.date</p></td>
-            <td><input type="text" th:field="*{visitDate}"/></td>
-            <td th:if="${#fields.hasErrors('visitDate')}" th:errors="*{visitDate}"></td>
-        </tr>
-        <tr>
-            <td><p th:text="#{visit.time}">visit.time</p></td>
-            <td><input type="text" th:field="*{visitTime}"/></td>
-            <td th:if="${#fields.hasErrors('visitTime')}" th:errors="*{visitTime}"></td>
-        </tr>
-        <tr>
-            <td>
-                <button type="submit" th:text="#{register.data}"></button>
-            </td>
-        </tr>
-    </table>
+<form action="#" th:action="@{__${baseUrl}+'/newData'__}" th:object="${possibleDentistVisitDTO}" method="post">
+    <div class="container">
+        <nav class="navbar navbar-light bg-light">
+            <a class="navbar-brand" th:href="@{__${baseUrl}__}" th:text="#{add.new.registration}">add.new.registration</a>
+            <a class="navbar-brand" th:href="@{__${baseUrl}+'/registrations'__}"
+               th:text="#{look.all.registrations}">look.all.registrations</a>
+        </nav>
+        <div class="form-group">
+            <label for="dentistName" th:text="#{dentist.name}">dentist.name</label>
+            <input class="form-control" id="dentistName" type="text" th:field="*{dentistName}"
+                   th:value="#{dentistName}"/>
+            <div th:each="err : ${#fields.errors('dentistName')}">
+                <small class="form-text text-muted" th:if="${#fields.hasErrors('dentistName')}"
+                       th:errors="*{dentistName}"></small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="visitDate" th:text="#{visit.date}">visit.date</label>
+            <input class="form-control" id="visitDate" type="text" th:field="*{visitDate}"
+                   th:value="#{visitDate}"/>
+            <div th:each="err : ${#fields.errors('visitDate')}">
+                <small class="form-text text-muted" th:if="${#fields.hasErrors('visitDate')}"
+                       th:errors="*{visitDate}"></small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="visitTime" th:text="#{visit.time}">visit.time</label>
+            <input class="form-control" id="visitTime" type="text" th:field="*{visitTime}"
+                   th:value="#{visitTime}"/>
+            <div th:each="err : ${#fields.errors('visitTime')}">
+                <small class="form-text text-muted" th:if="${#fields.hasErrors('visitTime')}"
+                       th:errors="*{visitTime}"></small>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary" th:text="#{register.data}"></button>
+    </div>
 </form>
 </body>
 </html>

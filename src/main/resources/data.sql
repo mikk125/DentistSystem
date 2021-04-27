@@ -1,18 +1,3 @@
-CREATE TABLE dentist_visit (
-id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-dentist_name VARCHAR(50) NOT NULL,
-patient_name VARCHAR(50) NOT NULL,
-visit_date DATE NOT NULL,
-visit_time TIME NOT NULL
-);
-
-CREATE TABLE possible_dentist_visit (
-id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-dentist_name VARCHAR(50) NOT NULL,
-visit_date DATE NOT NULL,
-visit_time TIME NOT NULL
-);
-
 INSERT INTO possible_dentist_visit (dentist_name, visit_date, visit_time) VALUES ('Arst1', DATEADD('day', 1, curdate()), DATEADD('hour', 1, now()));
 INSERT INTO possible_dentist_visit (dentist_name, visit_date, visit_time) VALUES ('Arst2', DATEADD('day', 2, curdate()), DATEADD('hour', 2, now()));
 INSERT INTO possible_dentist_visit (dentist_name, visit_date, visit_time) VALUES ('Arst3', DATEADD('day', 3, curdate()), DATEADD('hour', 3, now()));

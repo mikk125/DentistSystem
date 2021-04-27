@@ -1,24 +1,18 @@
 <html>
+<header>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+</header>
 <body>
-<table>
-    <tr>
-        <td>
-            <a th:href="@{http://localhost:8080/registrations}" th:text="#{look.all.registrations}">look.all.registrations</a>
-        </td>
-        <td>
-            <a th:href="@{http://localhost:8080/}" th:text="#{add.new.registration}">add.new.registration</a>
-        </td>
-        <td>
-            <a th:href="@{http://localhost:8080/newData}" th:text="#{add.new.data}">add.new.data</a>
-        </td>
-    </tr>
-    <tr>
-        <td colspan="2">
-            <p th:text="#{new.data.ok}">new.data.ok</p>
-        </td>
-    </tr>
-
-</table>
-
+<div class="container">
+    <nav class="navbar navbar-light bg-light">
+        <a class="navbar-brand" th:href="@{http://localhost:8080/}" th:text="#{add.new.registration}">add.new.registration</a>
+        <a class="navbar-brand" th:href="@{http://localhost:8080/registrations}" th:text="#{look.all.registrations}">look.all.registrations</a>
+        <a class="navbar-brand" th:href="@{http://localhost:8080/newData}" th:text="#{add.new.data}">add.new.data</a>
+    </nav>
+    <p th:text="#{new.data.ok}">new.data.ok</p>
+</div>
 </body>
 </html>

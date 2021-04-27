@@ -1,99 +1,84 @@
 <html xmlns:th="http://www.w3.org/1999/xhtml">
 <header>
-    <style>
-        table {
-            width: 80%;
-        }
-        table th, table td{
-            padding: 10px; /* Apply cell padding */
-        }
-    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 </header>
 <body>
-<form action="#" th:action="@{__${isNew == true ? '/' : '/modify'}__}" th:object="${dentistVisitDTO}" method="post">
-    <table>
-        <tr>
-            <td>
-                <a href="" th:href="@{http://localhost:8080/registrations}" th:text="#{look.all.registrations}">look.all.registrations</a>
-            </td>
-            <td>
-                <a th:href="@{http://localhost:8080/newData}" th:text="#{add.new.data}">add.new.data</a>
-            </td>
-        </tr>
-        <tr>
-            <td th:if="${isNew == false}">
-                <input type="hidden" th:field="*{id}"/>
-            </td>
-        </tr>
-        <tr>
-            <td><p th:text="#{patient.name}">patient.name</p></td>
-            <td><input type="text" th:field="*{patientName}" th:value="#{patientName}"/></td>
-            <td th:if="${#fields.hasErrors('patientName')}" th:errors="*{patientName}"></td>
-        </tr>
-        <tr>
-            <td><p th:text="#{dentist.name}">dentist.name</p></td>
-            <td>
-                <select th:name="dentistName">
-                    <option value="" th:text="#{dentist.name}">----Select dentist----</option>
-                    <option th:each="dentist : ${possibleDentists}" th:value="${dentist}"
-                            th:text="${dentist}"
-                            th:selected="(${dentist} == *{dentistName})">
-                    </option>
-                </select>
-            </td>
-            <td th:if="${#fields.hasErrors('dentistName')}"  th:errors="*{dentistName}"></td>
-        </tr>
-        <tr>
-            <td><p th:text="#{visit.date}">visit.date</p></td>
-            <td>
-                <select th:name="visitDate">
-                    <option value="" th:text="#{visit.date}">----Select visit date----</option>
-                    <option th:each="date : ${possibleVisitDates}" th:value="${#calendars.format(date, 'yyyy-MM-dd')}"
-                            th:text="${#calendars.format(date, 'yyyy-MM-dd')}"
-                            th:selected="(${date} == *{visitDate})">
-                    </option>
-                </select>
-            </td>
-            <td th:if="${#fields.hasErrors('visitDate')}" th:errors="*{visitDate}"></td>
-        </tr>
-        <tr>
-            <td><p th:text="#{visit.time}">visit.time</p></td>
-            <td th:if="${isNew == true}">
-                <select th:name="visitTime">
-                    <option value="" th:text="#{visit.time}">----Select visit time----</option>
-                    <option
-                            th:each="time : ${possibleVisitTimes}"
-                            th:value="${#calendars.format(time, 'HH:mm:ss')}"
-                            th:text="${#calendars.format(time, 'HH:mm:ss')}">
-                    </option>
-                </select>
-            </td>
-            <td th:if="${isNew == false or visitTime != null}">
-                <select th:name="visitTime">
-                    <option value="" th:text="#{visit.time}">----Select visit time----</option>
-                    <option
-                            th:each="time : ${possibleVisitTimes}"
-                            th:value="${#calendars.format(time, 'HH:mm:ss')}"
-                            th:text="${#calendars.format(time, 'HH:mm:ss')}"
-                            th:selected="(${#calendars.format(time, 'HH:mm:ss')} == *{#calendars.format(visitTime, 'HH:mm:ss')})">
-                    </option>
-                </select>
-            </td>
-            <td th:if="${#fields.hasErrors('visitTime')}" th:errors="*{visitTime}"></td>
-        </tr>
-        <tr>
-            <td>
-                <button type="submit" th:text="#{__${buttonName}__}"></button>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <div th:each="err : ${#fields.errors('*')}">
-                    <span th:text="${err}" class="fieldError"></span>
-                </div>
-            </td>
-        </tr>
-    </table>
+<form action="#" th:action="@{__${isNew == true ? baseUrl : baseUrl+'/modify'}__}"
+      th:object="${dentistVisitDTO}" method="post">
+    <div class="container">
+        <nav class="navbar navbar-light bg-light">
+            <a class="navbar-brand" th:href="@{__${baseUrl}+'/newData'__}" th:text="#{add.new.data}">add.new.data</a>
+            <a class="navbar-brand" th:href="@{__${baseUrl}+'/registrations'__}"
+               th:text="#{look.all.registrations}">look.all.registrations</a>
+        </nav>
+        <input type="hidden" th:field="*{id}"/>
+        <div class="form-group">
+            <label for="patientName" th:text="#{patient.name}">patient.name</label>
+            <input class="form-control" id="patientName" type="text" th:field="*{patientName}"
+                   th:value="#{patientName}"/>
+            <div th:each="err : ${#fields.errors('patientName')}">
+                <small class="form-text text-muted" th:if="${#fields.hasErrors('patientName')}"
+                       th:errors="*{patientName}"></small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="dentistName" th:text="#{dentist.name}">dentist.name</label>
+            <select class="form-control" id="dentistName" th:name="dentistName">
+                <option value="" th:text="#{dentist.name}">----Select dentist----</option>
+                <option th:each="dentist : ${possibleDentists}" th:value="${dentist}"
+                        th:text="${dentist}"
+                        th:selected="(${dentist} == *{dentistName})">
+                </option>
+            </select>
+            <div th:each="err : ${#fields.errors('dentistName')}">
+                <small class="form-text text-muted" th:if="${#fields.hasErrors('dentistName')}"
+                       th:errors="*{dentistName}"></small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="visitDate" th:text="#{visit.date}">visit.date</label>
+            <select class="form-control" id="visitDate" th:name="visitDate">
+                <option value="" th:text="#{visit.date}">----Select visit date----</option>
+                <option th:each="date : ${possibleVisitDates}" th:value="${#calendars.format(date, 'yyyy-MM-dd')}"
+                        th:text="${#calendars.format(date, 'yyyy-MM-dd')}"
+                        th:selected="(${date} == *{visitDate})">
+                </option>
+            </select>
+            <div th:each="err : ${#fields.errors('visitDate')}">
+                <small class="form-text text-muted" th:if="${#fields.hasErrors('visitDate')}"
+                       th:errors="*{visitDate}"></small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label th:if="${isNew == true}" for="visitTime1" th:text="#{visit.time}">visit.time</label>
+            <label th:if="${isNew == false or visitTime != null}" for="visitTime2" th:text="#{visit.time}">visit.time</label>
+            <select th:if="${isNew == true}" class="form-control" id="visitTime1" th:name="visitTime">
+                <option value="" th:text="#{visit.time}">----Select visit time----</option>
+                <option
+                        th:each="time : ${possibleVisitTimes}"
+                        th:value="${#calendars.format(time, 'HH:mm:ss')}"
+                        th:text="${#calendars.format(time, 'HH:mm:ss')}">
+                </option>
+            </select>
+            <select th:if="${isNew == false or visitTime != null}" class="form-control" id="visitTime2" th:name="visitTime">
+                <option value="" th:text="#{visit.time}">----Select visit time----</option>
+                <option
+                        th:each="time : ${possibleVisitTimes}"
+                        th:value="${#calendars.format(time, 'HH:mm:ss')}"
+                        th:text="${#calendars.format(time, 'HH:mm:ss')}"
+                        th:selected="(${#calendars.format(time, 'HH:mm:ss')} == *{#calendars.format(visitTime, 'HH:mm:ss')})">
+                </option>
+            </select>
+            <div th:each="err : ${#fields.errors('visitTime')}">
+                <small class="form-text text-muted" th:if="${#fields.hasErrors('visitTime')}"
+                       th:errors="*{visitTime}"></small>
+            </div>
+        </div>
+        <button class="btn btn-primary" type="submit" th:text="#{__${buttonName}__}"></button>
+    </div>
 </form>
 </body>
 </html>
