@@ -14,8 +14,8 @@
 <form action="#" th:action="@{__${baseUrl}+'/search'__}" th:object="${dentistVisitSearchDTO}" method="post">
     <div class="container">
         <nav class="navbar navbar-light bg-light">
-            <a class="navbar-brand" th:href="@{http://localhost:8080/}" th:text="#{add.new.registration}">add.new.registration</a>
-            <a class="navbar-brand" th:href="@{http://localhost:8080/newData}"
+            <a class="navbar-brand" th:href="@{__${baseUrl}__}" th:text="#{add.new.registration}">add.new.registration</a>
+            <a class="navbar-brand" th:href="@{__${baseUrl}+'/newData'__}"
                th:text="#{add.new.data}">add.new.data</a>
         </nav>
         <div class="input-group">
@@ -47,20 +47,20 @@
                 <td th:text="${registration.visitDate}"></td>
                 <td th:text="${registration.visitTime}"></td>
                 <td>
-                    <a th:href="@{http://localhost:8080/modify/{id}(id=${registration.id})}">
+                    <a th:href="@{__${baseUrl}+'/modify/{id}(id=${registration.id})'__}">
                 <span class="glyphicon glyphicon-edit">
                 </span>
                     </a>
                 </td>
                 <td>
-                    <a th:href="@{http://localhost:8080/delete/{id}(id=${registration.id})}">
+                    <a th:href="@{__${baseUrl}+'/delete/{id}(id=${registration.id})'__}">
                         <span class="glyphicon glyphicon-trash"></span>
                     </a>
                 </td>
             </tr>
         </table>
         <div th:each="err : ${#fields.errors('*')}">
-            <span th:text="${err}" class="fieldError"></span>
+            <span th:text="#{err}" class="fieldError"></span>
         </div>
     </div>
 </form>

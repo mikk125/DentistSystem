@@ -1,4 +1,4 @@
-<html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
 <header>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css"/>
@@ -8,11 +8,11 @@
 <body>
 <div class="container">
     <nav class="navbar navbar-light bg-light">
-        <a class="navbar-brand" th:href="@{http://localhost:8080/}" th:text="#{add.new.registration}">add.new.registration</a>
-        <a class="navbar-brand" th:href="@{http://localhost:8080/registrations}" th:text="#{look.all.registrations}">look.all.registrations</a>
-        <a class="navbar-brand" th:href="@{http://localhost:8080/newData}" th:text="#{add.new.data}">add.new.data</a>
+        <a class="navbar-brand" th:href="@{__${baseUrl}__}" th:text="#{add.new.registration}">add.new.registration</a>
+        <a class="navbar-brand" th:href="@{__${baseUrl}+'/registrations'__}" th:text="#{look.all.registrations}">look.all.registrations</a>
+        <a class="navbar-brand" th:href="@{__${baseUrl}+'/newData'__}" th:text="#{add.new.data}">add.new.data</a>
     </nav>
-    <p th:text="#{registration.ok}">registration.ok</p>
+    <p th:text="#{__${resultMessage}__}"></p>
 </div>
 </body>
 </html>

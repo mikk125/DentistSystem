@@ -46,9 +46,6 @@ public class DentistAppController extends WebMvcConfigurerAdapter {
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
         registry.addViewController("/results").setViewName("results");
-        registry.addViewController("/deleteResults").setViewName("deletionResults");
-        registry.addViewController("/modificationResults").setViewName("modificationResults");
-        registry.addViewController("/newDataResults").setViewName("newDataResults");
         registry.addViewController("/modify").setViewName("form");
         registry.addViewController("/newData").setViewName("dataForm");
         registry.addViewController("/registrations").setViewName("allRegistrations");
@@ -79,9 +76,11 @@ public class DentistAppController extends WebMvcConfigurerAdapter {
     }
 
     @GetMapping("/delete/{id}")
-    public String deleteRegistrationById(@PathVariable("id") Long id) {
+    public String deleteRegistrationById(@PathVariable("id") Long id, Model model) {
         dentistVisitService.deleteRegistrationById(id);
-        return String.format("redirect:%s:%d/deleteResults", BASE_URL, serverPort);
+        model.addAttribute("baseUrl", String.format("%s:%d", BASE_URL, serverPort));
+        model.addAttribute("resultMessage", "deletion.ok");
+        return "results";
     }
 
     @GetMapping("/modify/{id}")
@@ -116,7 +115,9 @@ public class DentistAppController extends WebMvcConfigurerAdapter {
             model.addAttribute("baseUrl", String.format("%s:%d", BASE_URL, serverPort));
             return "dataForm";
         }
-        return String.format("redirect:%s:%d/newDataResults", BASE_URL, serverPort);
+        model.addAttribute("baseUrl", String.format("%s:%d", BASE_URL, serverPort));
+        model.addAttribute("resultMessage", "new.data.ok");
+        return "results";
     }
 
     @PostMapping("/modify")
@@ -185,9 +186,12 @@ public class DentistAppController extends WebMvcConfigurerAdapter {
             model.addAttribute("baseUrl", String.format("%s:%d", BASE_URL, serverPort));
             return "form";
         }
+        model.addAttribute("baseUrl", String.format("%s:%d", BASE_URL, serverPort));
         if (isNew) {
-            return String.format("redirect:%s:%d/results", BASE_URL, serverPort);
+            model.addAttribute("resultMessage", "registration.ok");
+            return "results";
         }
-        return String.format("redirect:%s:%d/modificationResults", BASE_URL, serverPort);
+        model.addAttribute("resultMessage", "modification.ok");
+        return "results";
     }
 }
